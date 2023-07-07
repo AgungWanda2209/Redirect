@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+<body>
+  <script>
+    // Inisialisasi konfigurasi Firebase
+    const firebaseConfig = {
+  apiKey: "AIzaSyAmfWcbMSP57122za2-_e9L5AQ6xHAH7dI",
+  authDomain: "dinamyc-link-99670.firebaseapp.com",
+  databaseURL: "https://dinamyc-link-99670-default-rtdb.firebaseio.com",
+  projectId: "dinamyc-link-99670",
+  storageBucket: "dinamyc-link-99670.appspot.com",
+  messagingSenderId: "630375062617",
+  appId: "1:630375062617:web:d6d16a89aed0b114b86548",
+  measurementId: "G-W8V7H5CNKD"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+
+    function getLongLink() {
+      const keyFirebase = window.location.pathname.substr(window.location.pathname.lastIndexOf("/") + 1);
+
+      const database = firebase.database();
+      const linksRef = database.ref("shortlinks");
+      linksRef.child(keyFirebase).get()
+        .then((snapshot) => {
+          const longLink = snapshot.val();
+          if (longLink) {
+            window.location.href = longLink;
+          } else {
+            alert("Short link tidak valid");
+          }
+        })
+        .catch((error) => {
+          console.error("Error saat mendapatkan long link:", error);
+        });
+    }
+
+    getLongLink();
+  </script>
+</body>
+</html>
